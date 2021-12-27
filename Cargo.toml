@@ -1,0 +1,23 @@
+[package]
+name = "internet-ti-dot-me"
+version = "0.1.0"
+authors = ["Jessica Stokes <hello@jessicastokes.net>"]
+edition = "2018"
+default-run = "main"
+build = "src/build.rs"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+#[[bin]]
+#name = "image"
+#path = "src/image.rs"
+
+[dependencies]
+cgi = "0.6.0"
+chrono = "0.4"
+#resvg = "0.18.0"
+
+[build-dependencies]
+ructe = "0.13.4"
