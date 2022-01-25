@@ -1,1 +1,3 @@
-/target
+/lib
+/bin
+/pyvenv.cfg

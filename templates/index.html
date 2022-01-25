@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@{{ "%0.3d" % beats }} - Internet Time</title>
+    <meta name="description" content="@{{ "%0.3d" % beats }} - {{ datetime.strftime("%D, %H:%M %Z") }}">
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:creator" content="@ticky">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@{{ "%0.3d" % beats }}">
+    <meta property="og:description" content="@{{ "%0.3d" % beats }} - {{ datetime.strftime("%D, %H:%M %Z") }}">
+    <meta property="og:site_name" content="Internet Time">
+    <meta property="og:locale" content="en_GB">
+  </head>
+  <body>
+    <p>@{{ "%0.3d" % beats }}</p>
+
+    <ul>
+      <li>
+        <time datetime="{{ datetime.isoformat() }}">
+          {{ datetime.strftime("%B %d, %H:%M %Z") }}
+        </time>
+      </li>
+    {% for zone in timezones %}
+      {% set adjusted_datetime = datetime.astimezone(zone) %}
+      <li>
+        <time datetime="{{ adjusted_datetime.isoformat() }}">
+          {{ adjusted_datetime.strftime("%B %d, %H:%M %Z") }}
+        </time>
+      </li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>
