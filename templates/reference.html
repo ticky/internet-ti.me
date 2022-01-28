@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}@{{ "%0.3d" % beats }} - Internet Time{% endblock %}
-{% block description %}is {{ datetime.strftime("%D %H:%M %Z") }}{% for zone in timezones %}{% set adjusted_datetime = datetime.astimezone(zone) %}{{ adjusted_datetime.strftime(", %B %d %H:%M %Z") }}{% endfor %}{% endblock %}
+{% block title %}@{{ "%0.3d" % beats }}{% endblock %}
+{% block description %}is {{ datetime.strftime("%H:%M %Z") }}{% for zone in timezones %}{% set adjusted_datetime = datetime.astimezone(zone) %}{{ adjusted_datetime.strftime(", %H:%M %Z") }}{% endfor %}{% endblock %}
 {% block content %}
   {{ super() }}
   <h2 id="beats">@{{ "%0.3d" % beats }}</h2>
