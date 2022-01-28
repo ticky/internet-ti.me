@@ -4,7 +4,8 @@ import cgi
 import cgitb
 cgitb.enable()
 
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
+from decimal import *
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pathlib import Path
 from pytz import timezone as tz
@@ -44,18 +45,33 @@ env = Environment(
     autoescape=select_autoescape()
 )
 
-template = env.get_template("index.html")
+# TODO: Use babel for this, so we can get nice descriptive labels
+timezones = [tz("US/Pacific"), tz("US/Eastern"), tz("Europe/London"), tz("Asia/Tokyo")]
 
 biel_mean_time = timezone(timedelta(hours = 1), name = "BMT")
-
-now = datetime.now(biel_mean_time)
-
-beats = ((now.hour * 3600) + (now.minute * 60) + (now.second)) / 86.4
 
 gatekeeper = Gatekeeper()
 
 form = cgi.FieldStorage()
 
-gatekeeper.addHeader("Content-Type", "text/html")
-gatekeeper.addBody(template.render(beats=beats, datetime=now, timezones=[tz("US/Pacific"), tz("US/Eastern"), tz("Europe/London"), tz("Asia/Tokyo")]))
-gatekeeper.addBody("<pre><code>{}</code></pre>".format(form.getvalue("beats", None)))
+requested_beats = form.getvalue("beats", None)
+
+if requested_beats == None:
+    now = datetime.now(biel_mean_time)
+
+    beats = ((now.hour * 3600) + (now.minute * 60) + (now.second)) / Decimal('86.4')
+
+    template = env.get_template("reference.html")
+    gatekeeper.addHeader("Content-Type", "text/html")
+    gatekeeper.addBody(template.render(beats=beats, datetime=now, timezones=timezones))
+else:
+    beats = int(requested_beats)
+    today = date.today()
+
+    midnight = datetime.combine(today, time(), biel_mean_time)
+
+    now = midnight + timedelta(seconds = float(beats * Decimal(86.4)))
+
+    template = env.get_template("reference.html")
+    gatekeeper.addHeader("Content-Type", "text/html")
+    gatekeeper.addBody(template.render(beats=beats, datetime=now, timezones=timezones))

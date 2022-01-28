@@ -1,0 +1,28 @@
+{% set title %}{% block title %}Internet Time{% endblock %}{% endset %}
+{% set description %}{% block description %}Internet Time converter and reference{% endblock %}{% endset %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta name="description" content="{{ description }}">
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:creator" content="@ticky">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:site_name" content="Internet Time">
+    <meta property="og:locale" content="en_GB">
+  {% endblock %}
+  </head>
+  <body>
+  {% block content %}
+    <h1>Internet Ti.me</h1>
+    <p>Internet Time reference and converter</p>
+  {% endblock %}
+  </body>
+</html>

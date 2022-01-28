@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}@{{ "%0.3d" % beats }} - Internet Time{% endblock %}
+{% block description %}is {{ datetime.strftime("%D %H:%M %Z") }}{% for zone in timezones %}{% set adjusted_datetime = datetime.astimezone(zone) %}{{ adjusted_datetime.strftime(", %B %d %H:%M %Z") }}{% endfor %}{% endblock %}
+{% block content %}
+  {{ super() }}
+  <h2 id="beats">@{{ "%0.3d" % beats }}</h2>
+
+  <ul>
+    <li>
+      <time datetime="{{ datetime.isoformat() }}">
+        {{ datetime.strftime("%B %d %H:%M %Z") }}
+      </time>
+    </li>
+  {% for zone in timezones %}
+    {% set adjusted_datetime = datetime.astimezone(zone) %}
+    <li>
+      <time datetime="{{ adjusted_datetime.isoformat() }}">
+        {{ adjusted_datetime.strftime("%B %d %H:%M %Z") }}
+      </time>
+    </li>
+  {% endfor %}
+  </ul>
+
+  <a href="/@{{ "%0.3d" % beats }}">Permalink to @{{ "%0.3d" % beats }}</a>
+{% endblock %}
