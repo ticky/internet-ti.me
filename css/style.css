@@ -1,3 +1,11 @@
 body {
   font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Lucida Grande", Arial, sans-serif;
+  max-width: 32em;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+time {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
