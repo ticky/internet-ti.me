@@ -48,6 +48,7 @@ class Gatekeeper:
 biel_mean_time = timezone(timedelta(hours = 1), name = "BMT")
 
 # TODO: Use babel (https://babel.pocoo.org/en/latest/dates.html) for this, so we can get nice descriptive labels
+# TODO: JavaScript can do it too // new Intl.DateTimeFormat('en', {timeZone: 'Etc/UTC', timeZoneName: 'long'}).formatToParts(new Date())
 timezones = [tz("US/Pacific"), tz("US/Eastern"), tz("Etc/UTC"), biel_mean_time, tz("Asia/Tokyo"), tz("Pacific/Auckland")]
 
 # gatekeeper = Gatekeeper()
