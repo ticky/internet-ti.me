@@ -73,7 +73,7 @@ caption_font = ImageFont.truetype("/home/protected/.fonts/Inter-Black.ttf", 128)
 drawing_context.text((70, 23), "@%0.3d" % beats, fill="#000000", font=caption_font)
 
 link_font = ImageFont.truetype("/home/protected/.fonts/Inter-Bold.ttf", 32)
-drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill="#6236FF", font=link_font, anchor="ra")
+drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill="#893ff4", font=link_font, anchor="ra")
 
 image_dir = Path(__file__).parent.resolve() / "../images"
 
