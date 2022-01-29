@@ -66,16 +66,16 @@ now = midnight + timedelta(seconds = float(beats * Decimal(86.4)))
 image = Image.new("RGB", (1024, 512), "#FFFFFF")
 drawing_context = ImageDraw.Draw(image)
 
-background_font = ImageFont.truetype("/home/private/.fonts/Inter-Bold.ttf", 400)
+background_font = ImageFont.truetype("/home/protected/.fonts/Inter-Bold.ttf", 400)
 drawing_context.text((1024, 13), "@%0.3d" % beats, fill="#E5E5E5", font=background_font, anchor="ra")
 
-caption_font = ImageFont.truetype("/home/private/.fonts/Inter-Black.ttf", 128)
+caption_font = ImageFont.truetype("/home/protected/.fonts/Inter-Black.ttf", 128)
 drawing_context.text((70, 23), "@%0.3d" % beats, fill="#000000", font=caption_font)
 
-link_font = ImageFont.truetype("/home/private/.fonts/Inter-Bold.ttf", 32)
+link_font = ImageFont.truetype("/home/protected/.fonts/Inter-Bold.ttf", 32)
 drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill="#6236FF", font=link_font, anchor="ra")
 
-time_font = ImageFont.truetype("/home/private/.fonts/Inter-SemiBold.ttf", 54)
+time_font = ImageFont.truetype("/home/protected/.fonts/Inter-SemiBold.ttf", 54)
 for index, zone in enumerate(timezones):
     adjusted_datetime = now.astimezone(zone)
     drawing_context.text((200 + index % 2 * 360, 205 + math.floor(index / 2) * 90), adjusted_datetime.strftime("%H:%M %Z"), fill="#000000", font=time_font)
