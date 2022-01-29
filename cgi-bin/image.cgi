@@ -61,7 +61,7 @@ today = date.today()
 
 midnight = datetime.combine(today, time(), biel_mean_time)
 
-now = midnight + timedelta(seconds = float(beats * Decimal(86.4)))
+now = midnight + timedelta(seconds = float(beats * Decimal('86.4')))
 
 new_image = Image.new("RGBA", (1024, 512), "#FFFFFF")
 drawing_context = ImageDraw.Draw(new_image)

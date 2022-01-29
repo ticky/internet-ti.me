@@ -73,7 +73,7 @@ else:
 
     midnight = datetime.combine(today, time(), biel_mean_time)
 
-    now = midnight + timedelta(seconds = float(beats * Decimal(86.4)))
+    now = midnight + timedelta(seconds = float(beats * Decimal('86.4')))
 
     template = env.get_template("reference.html")
     gatekeeper.addHeader("Content-Type", "text/html")
