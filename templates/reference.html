@@ -6,17 +6,12 @@
   {{ super() }}
   <h2 id="beats">@{{ "%0.3d" % beats }}</h2>
 
-  <ul>
-    <li>
-      <time datetime="{{ datetime.isoformat() }}">
-        {{ datetime.strftime("%B %d %H:%M %Z") }}
-      </time>
-    </li>
+  <ul id="time-zones">
   {% for zone in timezones %}
     {% set adjusted_datetime = datetime.astimezone(zone) %}
     <li>
       <time datetime="{{ adjusted_datetime.isoformat() }}">
-        {{ adjusted_datetime.strftime("%B %d %H:%M %Z") }}
+        {{ adjusted_datetime.strftime("%H:%M %Z") }}
       </time>
     </li>
   {% endfor %}
