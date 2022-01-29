@@ -47,7 +47,7 @@ env = Environment(
 
 biel_mean_time = timezone(timedelta(hours = 1), name = "BMT")
 
-# TODO: Use babel for this, so we can get nice descriptive labels
+# TODO: Use babel (https://babel.pocoo.org/en/latest/dates.html) for this, so we can get nice descriptive labels
 timezones = [tz("US/Pacific"), tz("US/Eastern"), tz("Europe/London"), biel_mean_time, tz("Asia/Tokyo"), tz("Pacific/Auckland")]
 
 gatekeeper = Gatekeeper()
