@@ -63,8 +63,8 @@ midnight = datetime.combine(today, time(), biel_mean_time)
 
 now = midnight + timedelta(seconds = float(beats * Decimal(86.4)))
 
-image = Image.new("RGB", (1024, 512), "#FFFFFF")
-drawing_context = ImageDraw.Draw(image)
+new_image = Image.new("RGBA", (1024, 512), "#FFFFFF")
+drawing_context = ImageDraw.Draw(new_image)
 
 background_font = ImageFont.truetype("/home/protected/.fonts/Inter-Bold.ttf", 400)
 drawing_context.text((1024, 13), "@%0.3d" % beats, fill="#E5E5E5", font=background_font, anchor="ra")
@@ -75,14 +75,29 @@ drawing_context.text((70, 23), "@%0.3d" % beats, fill="#000000", font=caption_fo
 link_font = ImageFont.truetype("/home/protected/.fonts/Inter-Bold.ttf", 32)
 drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill="#6236FF", font=link_font, anchor="ra")
 
+with Image.open("images/1f30e.png", 'r') as image:
+    americas_emoji = image.resize((80, 80))
+new_image.alpha_composite(americas_emoji, (70, 200))
+
+with Image.open("images/1f30d.png", 'r') as image:
+    europe_africa_emoji = image.resize((80, 80))
+new_image.alpha_composite(europe_africa_emoji, (70, 290))
+
+with Image.open("images/1f30f.png", 'r') as image:
+    asia_oceania_emoji = image.resize((80, 80))
+new_image.alpha_composite(asia_oceania_emoji, (70, 380))
+
 time_font = ImageFont.truetype("/home/protected/.fonts/Inter-SemiBold.ttf", 54)
 for index, zone in enumerate(timezones):
     adjusted_datetime = now.astimezone(zone)
-    drawing_context.text((200 + index % 2 * 360, 205 + math.floor(index / 2) * 90), adjusted_datetime.strftime("%H:%M %Z"), fill="#000000", font=time_font)
+    drawing_context.text(
+        (200 + index % 2 * 360, 205 + math.floor(index / 2) * 90),
+        adjusted_datetime.strftime("%H:%M %Z"),
+        fill="#000000", font=time_font, features=["tnum"])
 
 encoded_image = BytesIO()
 
-image.save(encoded_image, "PNG")
+new_image.save(encoded_image, "PNG")
 
 # gatekeeper.addHeader("Content-Type", "image/png")
 # gatekeeper.addBody(encoded_image.read())
