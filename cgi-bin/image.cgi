@@ -5,6 +5,7 @@ import cgitb
 cgitb.enable()
 
 import codecs, sys
+import math
 from datetime import date, datetime, time, timedelta, timezone
 from decimal import *
 from io import BytesIO
@@ -44,10 +45,10 @@ class Gatekeeper:
         self.flush()
 # ---
 
-# TODO: Use babel for this, so we can get nice descriptive labels
-timezones = [tz("US/Pacific"), tz("US/Eastern"), tz("Europe/London"), tz("Asia/Tokyo")]
-
 biel_mean_time = timezone(timedelta(hours = 1), name = "BMT")
+
+# TODO: Use babel for this, so we can get nice descriptive labels
+timezones = [tz("US/Pacific"), tz("US/Eastern"), tz("Europe/London"), biel_mean_time, tz("Asia/Tokyo"), tz("Pacific/Auckland")]
 
 # gatekeeper = Gatekeeper()
 
@@ -75,6 +76,9 @@ link_font = ImageFont.truetype("/home/private/.fonts/Inter-Bold.ttf", 32)
 drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill="#6236FF", font=link_font, anchor="rt")
 
 time_font = ImageFont.truetype("/home/private/.fonts/Inter-SemiBold.ttf", 54)
+for index, zone in enumerate(timezones):
+    adjusted_datetime = now.astimezone(zone)
+    drawing_context.text((200 + index % 2 * 360, 205 + math.floor(index / 2) * 90), adjusted_datetime.strftime("%H:%M %Z"), fill="#000000", font=time_font)
 
 encoded_image = BytesIO()
 
