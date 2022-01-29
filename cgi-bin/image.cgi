@@ -75,15 +75,17 @@ drawing_context.text((70, 23), "@%0.3d" % beats, fill="#000000", font=caption_fo
 link_font = ImageFont.truetype("/home/protected/.fonts/Inter-Bold.ttf", 32)
 drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill="#6236FF", font=link_font, anchor="ra")
 
-with Image.open("images/1f30e.png", 'r') as image:
+image_dir = Path(__file__).parent.resolve() / "../images"
+
+with Image.open(image_dir / "1f30e.png", 'r') as image:
     americas_emoji = image.resize((80, 80))
 new_image.alpha_composite(americas_emoji, (70, 200))
 
-with Image.open("images/1f30d.png", 'r') as image:
+with Image.open(image_dir / "1f30d.png", 'r') as image:
     europe_africa_emoji = image.resize((80, 80))
 new_image.alpha_composite(europe_africa_emoji, (70, 290))
 
-with Image.open("images/1f30f.png", 'r') as image:
+with Image.open(image_dir / "1f30f.png", 'r') as image:
     asia_oceania_emoji = image.resize((80, 80))
 new_image.alpha_composite(asia_oceania_emoji, (70, 380))
 
