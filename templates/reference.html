@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}@{{ "%0.3d" % beats }}{% endblock %}
 {% block description %}is {{ datetime.strftime("%H:%M %Z") }}{% for zone in timezones %}{% set adjusted_datetime = datetime.astimezone(zone) %}{{ adjusted_datetime.strftime(", %H:%M %Z") }}{% endfor %}{% endblock %}
-{% block image %}/{{ "%0.3d" % beats }}.png{% endblock %}
+{% block image %}https://{{ server_name }}/{{ "%0.3d" % beats }}.png{% endblock %}
 {% block content %}
   {{ super() }}
   <h2 id="beats">@{{ "%0.3d" % beats }}</h2>

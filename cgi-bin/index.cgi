@@ -3,6 +3,7 @@
 import cgi
 import cgitb
 cgitb.enable()
+import os
 
 from datetime import date, datetime, time, timedelta, timezone
 from decimal import *
@@ -40,6 +41,8 @@ class Gatekeeper:
         self.flush()
 # ---
 
+server_name = os.environ.get("SERVER_NAME")
+
 env = Environment(
     loader=FileSystemLoader(Path(__file__).parent.resolve() / "../templates"),
     autoescape=select_autoescape()
@@ -63,7 +66,7 @@ if requested_beats == None:
 
     template = env.get_template("reference.html")
     gatekeeper.addHeader("Content-Type", "text/html")
-    gatekeeper.addBody(template.render(beats=beats, datetime=now, timezones=timezones))
+    gatekeeper.addBody(template.render(server_name=server_name, beats=beats, datetime=now, timezones=timezones))
 else:
     beats = int(requested_beats)
     today = date.today()
@@ -74,4 +77,4 @@ else:
 
     template = env.get_template("reference.html")
     gatekeeper.addHeader("Content-Type", "text/html")
-    gatekeeper.addBody(template.render(beats=beats, datetime=now, timezones=timezones))
+    gatekeeper.addBody(template.render(server_name=server_name, beats=beats, datetime=now, timezones=timezones))
