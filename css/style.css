@@ -5,6 +5,10 @@ body {
   padding: 0 1em;
 }
 
+a:link, a:visited {
+  color: #893ff4;
+}
+
 time {
   font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
