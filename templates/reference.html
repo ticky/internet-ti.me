@@ -10,12 +10,14 @@
   {% for zone in timezones %}
     {% set adjusted_datetime = datetime.astimezone(zone) %}
     <li>
-      <time datetime="{{ adjusted_datetime.isoformat() }}">
-        {{ adjusted_datetime.strftime("%H:%M %Z") }}
+      <time datetime="{{ adjusted_datetime.isoformat() }}" data-zone="{{ zone.zone }}">
+        <span class="time">{{ adjusted_datetime.strftime("%H:%M") }}</span> <span class="zone">{{ adjusted_datetime.strftime("%Z") }}</span>
       </time>
     </li>
   {% endfor %}
   </ul>
 
-  <a href="/@{{ "%0.3d" % beats }}">Permalink to @{{ "%0.3d" % beats }}</a>
+  <a id="permalink" href="/@{{ "%0.3d" % beats }}">
+    Permalink to <span class="beats">@{{ "%0.3d" % beats }}</span>
+  </a>
 {% endblock %}

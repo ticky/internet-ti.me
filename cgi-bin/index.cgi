@@ -65,7 +65,7 @@ if requested_beats == None:
 
     beats = ((now.hour * 3600) + (now.minute * 60) + (now.second)) / Decimal('86.4')
 
-    template = env.get_template("reference.html")
+    template = env.get_template("index.html")
     gatekeeper.addHeader("Content-Type", "text/html")
     gatekeeper.addBody(template.render(server_name=server_name, beats=beats, datetime=now, timezones=timezones))
 else:
