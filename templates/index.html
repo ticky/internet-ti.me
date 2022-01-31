@@ -41,7 +41,7 @@
         localTimeZoneName: {
           get() {
             // Find the first locale which has a non-GMT-offset time zone name for the current time zone
-            const idealLocale = ['en-US', 'en-JP', 'en-NZ'].find((zoneName) => !this.setLocale(zoneName).timeZoneName.startsWith('GMT'));
+            const idealLocale = ['en-US', 'en-JP', 'en-NZ', 'ja-JP'].find((zoneName) => !this.setLocale(zoneName).timeZoneName.startsWith('GMT'));
 
             return this.setLocale(idealLocale).timeZoneName;
           }
@@ -59,7 +59,7 @@
         zoneElement: timeWrapperElement.querySelector('span.zone')
       })
     );
-    
+
     let lastBeats;
 
     const updateTime = () => {
