@@ -5,6 +5,10 @@ body {
   padding: 0 1em;
 }
 
+code, pre {
+  font-family: "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
 a:link, a:visited {
   color: #893ff4;
 }
