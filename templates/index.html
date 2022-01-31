@@ -51,6 +51,15 @@
 
     const beatsHeading = document.getElementById('beats');
     const beatsPermalink = document.getElementById('permalink');
+    const timeZoneElements = Array.prototype.map.call(
+      document.querySelectorAll('#time-zones > li > time'),
+      (timeWrapperElement) => ({
+        timeWrapperElement,
+        timeElement: timeWrapperElement.querySelector('span.time'),
+        zoneElement: timeWrapperElement.querySelector('span.zone')
+      })
+    );
+    
     let lastBeats;
 
     const updateTime = () => {
@@ -65,20 +74,17 @@
         beatsPermalink.href = `/@${currentBeats}`;
         beatsPermalink.querySelector('span.beats').innerText = `@${currentBeats}`;
 
-        Array.prototype.forEach.call(
-          document.querySelectorAll('#time-zones > li > time'),
-          (timeWrapper) => {
-            const timeInZone = dateTime.setZone(timeWrapper.dataset.zone ? timeWrapper.dataset.zone : BielMeanTimeZone.singleton);
+        timeZoneElements.forEach(({ timeWrapperElement, timeElement, zoneElement }) => {
+          const timeInZone = dateTime.setZone(timeWrapperElement.dataset.zone ? timeWrapperElement.dataset.zone : BielMeanTimeZone.singleton);
 
-            timeWrapper.querySelector('span.time').innerText = timeInZone.toLocaleString({ hour: 'numeric', minute: 'numeric', hour12: false });
-            timeWrapper.setAttribute('datetime', timeInZone.toISO());
+          timeElement.innerText = timeInZone.toLocaleString({ hour: 'numeric', minute: 'numeric', hour12: false });
+          timeWrapperElement.setAttribute('datetime', timeInZone.toISO());
 
-            // Update the time zone names if it's got an associated IANA zone name
-            if (timeWrapper.dataset.zone) {
-              timeWrapper.querySelector('span.zone').innerText = timeInZone.localTimeZoneName;
-            }
+          // Update the time zone names if it's got an associated IANA zone name
+          if (timeWrapperElement.dataset.zone) {
+            zoneElement.innerText = timeInZone.localTimeZoneName;
           }
-        )
+        });
       }
 
       window.requestAnimationFrame(updateTime);
