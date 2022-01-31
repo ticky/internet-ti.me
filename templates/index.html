@@ -61,6 +61,7 @@
       })
     );
 
+    const beatsNumberFormatter = new Intl.NumberFormat(undefined, { minimumIntegerDigits: 3 });
     let lastBeats;
 
     const updateTime = () => {
@@ -70,7 +71,7 @@
       if (currentBeats !== lastBeats) {
         lastBeats = currentBeats;
 
-        const beatsString = `@${currentBeats}`;
+        const beatsString = `@${beatsNumberFormatter.format(3)}`;
 
         document.title = `${beatsString} - internet-ti.me`;
         beatsHeading.innerText = beatsString;
