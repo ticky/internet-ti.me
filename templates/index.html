@@ -71,7 +71,7 @@
       if (currentBeats !== lastBeats) {
         lastBeats = currentBeats;
 
-        const beatsString = `@${beatsNumberFormatter.format(3)}`;
+        const beatsString = `@${beatsNumberFormatter.format(currentBeats)}`;
 
         document.title = `${beatsString} - internet-ti.me`;
         beatsHeading.innerText = beatsString;
