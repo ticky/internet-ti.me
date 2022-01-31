@@ -1,23 +1,27 @@
 {% extends "base.html" %}
-{% block title %}@{{ "%0.3d" % beats }}{% endblock %}
+{% block title %}@{{ "%0.3d" % beats }} - internet-ti.me{% endblock %}
 {% block description %}is {% for zone in timezones %}{% set adjusted_datetime = datetime.astimezone(zone) %}{{ adjusted_datetime.strftime("%H:%M %Z") }}{% if loop.last == False %}, {% endif %}{% endfor %}{% endblock %}
 {% block image %}https://{{ server_name }}/{{ "%0.3d" % beats }}.png{% endblock %}
 {% block content %}
   {{ super() }}
-  <h2 id="beats">@{{ "%0.3d" % beats }}</h2>
+  <div id="reference" data-beats="@{{ "%0.3d" % beats }}">
+    <div id="heading">
+      <h2 id="beats">@{{ "%0.3d" % beats }}</h2>
 
-  <ul id="time-zones">
-  {% for zone in timezones %}
-    {% set adjusted_datetime = datetime.astimezone(zone) %}
-    <li>
-      <time datetime="{{ adjusted_datetime.isoformat() }}" data-zone="{{ zone.zone }}">
-        <span class="time">{{ adjusted_datetime.strftime("%H:%M") }}</span> <span class="zone">{{ adjusted_datetime.strftime("%Z") }}</span>
-      </time>
-    </li>
-  {% endfor %}
-  </ul>
+      <a id="permalink" href="/@{{ "%0.3d" % beats }}" title="Permalink to this time">
+        internet-ti.me/<span class="beats">@{{ "%0.3d" % beats }}</span>
+      </a>
+    </div>
 
-  <a id="permalink" href="/@{{ "%0.3d" % beats }}">
-    Permalink to <span class="beats">@{{ "%0.3d" % beats }}</span>
-  </a>
+    <ul id="time-zones">
+    {% for zone in timezones %}
+      {% set adjusted_datetime = datetime.astimezone(zone) %}
+      <li>
+        <time datetime="{{ adjusted_datetime.isoformat() }}" data-zone="{{ zone.zone }}">
+          <span class="time">{{ adjusted_datetime.strftime("%H:%M") }}</span> <span class="zone">{{ adjusted_datetime.strftime("%Z") }}</span>
+        </time>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
 {% endblock %}

@@ -1,5 +1,41 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Inter'), local('Inter Regular'), local('Inter-Regular'),
+       url('../fonts/inter-v7-latin-regular.woff2') format('woff2'),
+       url('../fonts/inter-v7-latin-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Inter'), local('Inter SemiBold'), local('Inter-SemiBold'),
+       url('../fonts/inter-v7-latin-600.woff2') format('woff2'),
+       url('../fonts/inter-v7-latin-600.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Inter'), local('Inter Bold'), local('Inter-Bold'),
+       url('../fonts/inter-v7-latin-700.woff2') format('woff2'),
+       url('../fonts/inter-v7-latin-700.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Inter'), local('Inter Black'), local('Inter-Black'),
+       url('../fonts/inter-v7-latin-900.woff2') format('woff2'),
+       url('../fonts/inter-v7-latin-900.woff') format('woff');
+}
+
 body {
-  font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Lucida Grande", Arial, sans-serif;
+  font-family: Inter, system, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Lucida Grande", Arial, sans-serif;
   max-width: 32em;
   margin: 0 auto;
   padding: 0 1em;
@@ -17,3 +53,75 @@ time {
   font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
 }
+
+#reference {
+  max-width: 18em;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  border-radius: .5em;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 .25em 1em;
+  margin: 0 auto;
+  padding: 1em;
+  position: relative;
+  overflow: hidden;
+}
+
+#reference:before {
+  content: attr(data-beats);
+  font-size: 7.5em;
+  font-weight: bold;
+  color: rgba(128, 128, 128, 0.2);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+@media (min-width: 370px) {
+  #reference { font-size: 1.2em }
+}
+
+@media (min-width: 400px) {
+  #reference { font-size: 1.3em }
+}
+
+@media (min-width: 500px) {
+  #reference { font-size: 1.6em }
+}
+
+#heading {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+#heading > h2 {
+  font-size: 2.5em;
+  font-weight: 900;
+  margin: 0;
+  margin-top: -.1em;
+  margin-right: .25em;
+  flex-grow: 1;
+}
+
+#heading > a {
+  font-weight: bold;
+  font-size: .7em;
+  text-align: right;
+}
+
+#time-zones {
+  font-weight: 600;
+  display: grid;
+  grid-gap: .2em;
+  grid-template-columns: 50% 50%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#time-zones time[data-zone="US/Pacific"]:before { content: '🌎' }
+#time-zones time[data-zone="Etc/UTC"]:before { content: '🌍' }
+#time-zones time[data-zone="Asia/Tokyo"]:before { content: '🌏' }
+
