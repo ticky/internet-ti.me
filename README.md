@@ -1,6 +1,6 @@
 # Internet-Ti.me
 
-[![Deploy](https://github.com/ticky/internet-ti.me/actions/workflows/main.yml/badge.svg)](https://github.com/ticky/internet-ti.me/actions/workflows/main.yml)
+[![CodeQL](https://github.com/ticky/internet-ti.me/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/ticky/internet-ti.me/actions/workflows/codeql-analysis.yml) [![Deploy](https://github.com/ticky/internet-ti.me/actions/workflows/main.yml/badge.svg)](https://github.com/ticky/internet-ti.me/actions/workflows/main.yml)
 
 [Internet Time](https://en.wikipedia.org/wiki/Swatch_Internet_Time) reference and (eventually) converter site, for planning things with your internet friends who aren't (yet) obsessed with Internet Time 😉
 
