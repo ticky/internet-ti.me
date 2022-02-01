@@ -85,10 +85,9 @@ def create_app(test_config=None):
 
             time_font = ImageFont.truetype(str(static_path / 'fonts/inter-v7-latin-600.ttf'), 54)
             for index, zone in enumerate(TIMEZONES):
-                adjusted_datetime = now.astimezone(zone)
                 drawing_context.text(
                     (200 + index % 2 * 360, 205 + math.floor(index / 2) * 90),
-                    adjusted_datetime.strftime('%H:%M %Z'),
+                    now.astimezone(zone).strftime('%H:%M %Z'),
                     fill='#000000', font=time_font, features=['tnum'])
 
             encoded_image = BytesIO()
