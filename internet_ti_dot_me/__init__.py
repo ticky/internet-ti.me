@@ -46,6 +46,8 @@ def create_app(test_config=None):
 
 	@app.route('/<int:beats>.png', methods=['GET'])
 	def beats_image(beats):
+		static_path = Path(app.static_folder)
+
 		today = date.today()
 
 		midnight = datetime.combine(today, time(), BIEL_MEAN_TIME)
@@ -55,30 +57,28 @@ def create_app(test_config=None):
 		with Image.new("RGBA", (1024, 512), "#FFFFFF") as new_image:
 			drawing_context = ImageDraw.Draw(new_image)
 
-			background_font = ImageFont.truetype("/home/protected/.fonts/Inter-Bold.ttf", 400)
+			background_font = ImageFont.truetype(str(static_path / "fonts/inter-v7-latin-700.ttf"), 400)
 			drawing_context.text((1024, 13), "@%0.3d" % beats, fill="#E5E5E5", font=background_font, anchor="ra")
 
-			caption_font = ImageFont.truetype("/home/protected/.fonts/Inter-Black.ttf", 128)
+			caption_font = ImageFont.truetype(str(static_path / "fonts/inter-v7-latin-900.ttf"), 128)
 			drawing_context.text((70, 23), "@%0.3d" % beats, fill="#000000", font=caption_font)
 
-			link_font = ImageFont.truetype("/home/protected/.fonts/Inter-Bold.ttf", 32)
+			link_font = ImageFont.truetype(str(static_path / "fonts/inter-v7-latin-700.ttf"), 32)
 			drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill="#893ff4", font=link_font, anchor="ra")
 
-			image_dir = Path(app.static_folder) / "images"
-
-			with Image.open(image_dir / "1f30e.png", 'r') as image:
+			with Image.open(static_path / "images/1f30e.png", 'r') as image:
 				americas_emoji = image.resize((80, 80))
 			new_image.alpha_composite(americas_emoji, (70, 200))
 
-			with Image.open(image_dir / "1f30d.png", 'r') as image:
+			with Image.open(static_path / "images/1f30d.png", 'r') as image:
 				europe_africa_emoji = image.resize((80, 80))
 			new_image.alpha_composite(europe_africa_emoji, (70, 290))
 
-			with Image.open(image_dir / "1f30f.png", 'r') as image:
+			with Image.open(static_path / "images/1f30f.png", 'r') as image:
 				asia_oceania_emoji = image.resize((80, 80))
 			new_image.alpha_composite(asia_oceania_emoji, (70, 380))
 
-			time_font = ImageFont.truetype("/home/protected/.fonts/Inter-SemiBold.ttf", 54)
+			time_font = ImageFont.truetype(str(static_path / "fonts/inter-v7-latin-600.ttf"), 54)
 			for index, zone in enumerate(TIMEZONES):
 				adjusted_datetime = now.astimezone(zone)
 				drawing_context.text(
@@ -88,7 +88,7 @@ def create_app(test_config=None):
 
 			encoded_image = BytesIO()
 
-			new_image.save(encoded_image, "PNG")
+			new_image.convert(mode='RGB').quantize().save(encoded_image, 'PNG', optimize=True)
 
 		encoded_image.seek(0)
 

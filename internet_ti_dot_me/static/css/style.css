@@ -4,7 +4,8 @@
   font-weight: 400;
   src: local('Inter'), local('Inter Regular'), local('Inter-Regular'),
        url('../fonts/inter-v7-latin-regular.woff2') format('woff2'),
-       url('../fonts/inter-v7-latin-regular.woff') format('woff');
+       url('../fonts/inter-v7-latin-regular.woff') format('woff'),
+       url('../fonts/inter-v7-latin-regular.ttf') format('ttf');
 }
 
 @font-face {
@@ -13,7 +14,8 @@
   font-weight: 600;
   src: local('Inter'), local('Inter SemiBold'), local('Inter-SemiBold'),
        url('../fonts/inter-v7-latin-600.woff2') format('woff2'),
-       url('../fonts/inter-v7-latin-600.woff') format('woff');
+       url('../fonts/inter-v7-latin-600.woff') format('woff'),
+       url('../fonts/inter-v7-latin-600.ttf') format('ttf');
 }
 
 @font-face {
@@ -22,7 +24,8 @@
   font-weight: 700;
   src: local('Inter'), local('Inter Bold'), local('Inter-Bold'),
        url('../fonts/inter-v7-latin-700.woff2') format('woff2'),
-       url('../fonts/inter-v7-latin-700.woff') format('woff');
+       url('../fonts/inter-v7-latin-700.woff') format('woff'),
+       url('../fonts/inter-v7-latin-700.ttf') format('ttf');
 }
 
 @font-face {
@@ -31,7 +34,8 @@
   font-weight: 900;
   src: local('Inter'), local('Inter Black'), local('Inter-Black'),
        url('../fonts/inter-v7-latin-900.woff2') format('woff2'),
-       url('../fonts/inter-v7-latin-900.woff') format('woff');
+       url('../fonts/inter-v7-latin-900.woff') format('woff'),
+       url('../fonts/inter-v7-latin-900.ttf') format('ttf');
 }
 
 body {
