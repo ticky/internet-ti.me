@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask, abort, redirect, render_template, send_file, url_for
 
 import math
