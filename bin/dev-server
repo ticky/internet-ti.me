@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-FLASK_APP="internet_ti_dot_me" flask run
+export FLASK_APP="internet_ti_dot_me"
+export FLASK_ENV="development"
+
+flask run
