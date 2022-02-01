@@ -41,6 +41,15 @@ body {
   padding: 0 1em;
 }
 
+h1 > a:link {
+  text-decoration: none;
+}
+
+h1 > a:hover,
+h1 > a:focus {
+  text-decoration: underline;
+}
+
 code, pre {
   font-family: "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -105,10 +114,16 @@ time {
   flex-grow: 1;
 }
 
-#heading > a {
+#heading > a:link {
   font-weight: bold;
   font-size: .7em;
   text-align: right;
+  text-decoration: none;
+}
+
+#heading > a:hover,
+#heading > a:focus {
+  text-decoration: underline;
 }
 
 #time-zones {
