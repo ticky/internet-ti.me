@@ -16,16 +16,12 @@ Once I realised that `internet-ti.me` was available to buy I knew what I had to 
 
 ## How
 
-It's built in CGI because I am ever the anachronist, with some fairly basic Python. In part because Python has some reasonable image composition tools built-in, and because it was simple to iterate on.
-
-`.htaccess` rewrite rules make the URLs feel pretty and modern, and then under the hood `index.cgi` and `image.cgi` do the lifting of generating the page, and the preview image respectively.
+It's built in Flask, in part because Python has some reasonable image composition tools built-in, and because it was simple to iterate on.
 
 Page HTML templates are processed using [Jinja2](https://jinja2docs.readthedocs.io), and preview images are generated using [Pillow](https://pillow.readthedocs.io/en/stable/).
 
-I also reused a `Gatekeeper` class I wrote nearly a decade ago, which semi-automates the CGI response process. I'm not sure I should've, though! 😅
-
 ## Development
 
-A basic development server script is included at `bin/dev-server`. It runs on `localhost:8000`. Note that this server doesn't handle rewrite rules, which makes it necessary to test the scripts via the `cgi-bin` directory and the required parameters.
+A basic development server script is included at `bin/dev-server`. It runs on `localhost:5000`.
 
-While the root directory of this repository is intended to map directly to the root htdocs directory of a server, with no dependencies other than those available out of the box on my web host, a `requirements.txt` is provided which contains dependencies for development.
+The project is intended to work with no dependencies other than those available out of the box on my web host, but a `requirements.txt` is provided which contains dependencies for development.
