@@ -17,4 +17,12 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           server: ${{ secrets.SSH_SERVER }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} 
-          remote_path: ${{ secrets.SSH_ROOT }}
+          remote_path: ${{ secrets.SSH_ROOT 
+
+      - name: Reload Server
+        uses: garygrossgarten/github-action-ssh@0.6.4
+        with:
+          command: nfsn signal-daemon server HUP
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_USERNAME }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
