@@ -20,7 +20,7 @@ jobs:
           remote_path: ${{ secrets.SSH_ROOT }}
 
       - name: Reload Server
-        uses: garygrossgarten/github-action-ssh@0.6.3
+        uses: garygrossgarten/github-action-ssh@v0.6.3
         with:
           command: nfsn signal-daemon server HUP
           host: ${{ secrets.SSH_SERVER }}
