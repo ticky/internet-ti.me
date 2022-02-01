@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 from pytz import timezone as tz
 
 BIEL_MEAN_TIME = timezone(timedelta(hours=1), name="BMT")
+BEAT_LENGTH = Decimal('86.4')
 
 # TODO: Use babel (https://babel.pocoo.org/en/latest/dates.html) for this, so we can get nice descriptive labels
 TIMEZONES = [tz("US/Pacific"), tz("US/Eastern"), tz("Etc/UTC"), BIEL_MEAN_TIME, tz("Asia/Tokyo"), tz("Pacific/Auckland")]
@@ -29,7 +30,7 @@ def create_app(test_config=None):
 	def index():
 		now = datetime.now(BIEL_MEAN_TIME)
 
-		beats = ((now.hour * 3600) + (now.minute * 60) + (now.second)) / Decimal('86.4')
+		beats = ((now.hour * 3600) + (now.minute * 60) + (now.second)) / BEAT_LENGTH
 
 		return render_template("index.html", beats=beats, datetime=now, timezones=TIMEZONES)
 
@@ -40,10 +41,11 @@ def create_app(test_config=None):
 
 		midnight = datetime.combine(today, time(), BIEL_MEAN_TIME)
 
-		now = midnight + timedelta(seconds = float(beats * Decimal('86.4')))
+		now = midnight + timedelta(seconds=float(beats * BEAT_LENGTH))
 
 		return render_template("reference.html", beats=beats, datetime=now, timezones=TIMEZONES)
 
+	@app.route('/@<int:beats>.png', methods=['GET'])
 	@app.route('/<int:beats>.png', methods=['GET'])
 	def beats_image(beats):
 		static_path = Path(app.static_folder)
@@ -52,7 +54,7 @@ def create_app(test_config=None):
 
 		midnight = datetime.combine(today, time(), BIEL_MEAN_TIME)
 
-		now = midnight + timedelta(seconds = float(beats * Decimal('86.4')))
+		now = midnight + timedelta(seconds=float(beats * BEAT_LENGTH))
 
 		with Image.new("RGBA", (1024, 512), "#FFFFFF") as new_image:
 			drawing_context = ImageDraw.Draw(new_image)
