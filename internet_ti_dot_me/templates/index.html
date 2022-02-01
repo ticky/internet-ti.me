@@ -4,7 +4,7 @@
 {% block image %}{% endblock %}
 {% block head %}
   {{ super() }}
-  <script src="/js/luxon.min.js"></script>
+  <script src="{{ url_for('static', filename='js/luxon.min.js') }}"></script>
 {% endblock %}
 {% block content %}
   {{ super() }}

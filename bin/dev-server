@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-python3 -m http.server --cgi
+FLASK_APP="internet_ti_dot_me" flask run
