@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, send_file
+from flask import Flask, abort, redirect, render_template, send_file, url_for
 
 import math
 from datetime import date, datetime, time, timedelta, timezone
@@ -10,93 +10,106 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 from pytz import timezone as tz
 
-BIEL_MEAN_TIME = timezone(timedelta(hours=1), name="BMT")
+BIEL_MEAN_TIME = timezone(timedelta(hours=1), name='BMT')
 BEAT_LENGTH = Decimal('86.4')
 
-# TODO: Use babel (https://babel.pocoo.org/en/latest/dates.html) for this, so we can get nice descriptive labels
-TIMEZONES = [tz("US/Pacific"), tz("US/Eastern"), tz("Etc/UTC"), BIEL_MEAN_TIME, tz("Asia/Tokyo"), tz("Pacific/Auckland")]
+TIMEZONES = [tz('US/Pacific'), tz('US/Eastern'),
+             tz('Etc/UTC'), BIEL_MEAN_TIME,
+             tz('Asia/Tokyo'), tz('Pacific/Auckland')]
 
 def create_app(test_config=None):
-	app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True)
 
-	if test_config is None:
-		# load the instance config, if it exists, when not testing
-		app.config.from_pyfile('config.py', silent=True)
-	else:
-		# load the test config if passed in
-		app.config.from_mapping(test_config)
+    if test_config is None:
+        # load the instance config, if it exists, when not testing
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        # load the test config if passed in
+        app.config.from_mapping(test_config)
 
-	@app.route('/', methods=['GET'])
-	def index():
-		now = datetime.now(BIEL_MEAN_TIME)
+    @app.route('/', methods=['GET'])
+    def index():
+        now = datetime.now(BIEL_MEAN_TIME)
 
-		beats = ((now.hour * 3600) + (now.minute * 60) + (now.second)) / BEAT_LENGTH
+        beats = ((now.hour * 3600) + (now.minute * 60) + (now.second)) / BEAT_LENGTH
 
-		return render_template("index.html", beats=beats, datetime=now, timezones=TIMEZONES)
+        return render_template('index.html', beats=beats, datetime=now, timezones=TIMEZONES)
 
-	@app.route('/@<int:beats>', methods=['GET'])
-	@app.route('/<int:beats>', methods=['GET'])
-	def beats(beats):
-		today = date.today()
+    @app.route('/@<int:beats>', methods=['GET'])
+    def beats(beats):
+        if beats > 999:
+            return abort(404)
 
-		midnight = datetime.combine(today, time(), BIEL_MEAN_TIME)
+        today = date.today()
 
-		now = midnight + timedelta(seconds=float(beats * BEAT_LENGTH))
+        midnight = datetime.combine(today, time(), BIEL_MEAN_TIME)
 
-		return render_template("reference.html", beats=beats, datetime=now, timezones=TIMEZONES)
+        now = midnight + timedelta(seconds=float(beats * BEAT_LENGTH))
 
-	@app.route('/@<int:beats>.png', methods=['GET'])
-	@app.route('/<int:beats>.png', methods=['GET'])
-	def beats_image(beats):
-		static_path = Path(app.static_folder)
+        return render_template('reference.html', beats=beats, datetime=now, timezones=TIMEZONES)
 
-		today = date.today()
+    @app.route('/@<int:beats>.png', methods=['GET'])
+    def beats_image(beats):
+        if beats > 999:
+            return abort(404)
 
-		midnight = datetime.combine(today, time(), BIEL_MEAN_TIME)
+        static_path = Path(app.static_folder)
 
-		now = midnight + timedelta(seconds=float(beats * BEAT_LENGTH))
+        today = date.today()
 
-		with Image.new("RGBA", (1024, 512), "#FFFFFF") as new_image:
-			drawing_context = ImageDraw.Draw(new_image)
+        midnight = datetime.combine(today, time(), BIEL_MEAN_TIME)
 
-			background_font = ImageFont.truetype(str(static_path / "fonts/inter-v7-latin-700.ttf"), 400)
-			drawing_context.text((1024, 13), "@%0.3d" % beats, fill="#E5E5E5", font=background_font, anchor="ra")
+        now = midnight + timedelta(seconds=float(beats * BEAT_LENGTH))
 
-			caption_font = ImageFont.truetype(str(static_path / "fonts/inter-v7-latin-900.ttf"), 128)
-			drawing_context.text((70, 23), "@%0.3d" % beats, fill="#000000", font=caption_font)
+        with Image.new('RGBA', (1024, 512), '#FFFFFF') as new_image:
+            drawing_context = ImageDraw.Draw(new_image)
 
-			link_font = ImageFont.truetype(str(static_path / "fonts/inter-v7-latin-700.ttf"), 32)
-			drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill="#893ff4", font=link_font, anchor="ra")
+            background_font = ImageFont.truetype(str(static_path / 'fonts/inter-v7-latin-700.ttf'), 400)
+            drawing_context.text((1024, 13), "@%0.3d" % beats, fill='#E5E5E5', font=background_font, anchor='ra')
 
-			with Image.open(static_path / "images/1f30e.png", 'r') as image:
-				americas_emoji = image.resize((80, 80))
-			new_image.alpha_composite(americas_emoji, (70, 200))
+            caption_font = ImageFont.truetype(str(static_path / 'fonts/inter-v7-latin-900.ttf'), 128)
+            drawing_context.text((70, 23), "@%0.3d" % beats, fill='#000000', font=caption_font)
 
-			with Image.open(static_path / "images/1f30d.png", 'r') as image:
-				europe_africa_emoji = image.resize((80, 80))
-			new_image.alpha_composite(europe_africa_emoji, (70, 290))
+            link_font = ImageFont.truetype(str(static_path / 'fonts/inter-v7-latin-700.ttf'), 32)
+            drawing_context.text((954, 47), "internet-ti.me/@%0.3d" % beats, fill='#893ff4', font=link_font, anchor='ra')
 
-			with Image.open(static_path / "images/1f30f.png", 'r') as image:
-				asia_oceania_emoji = image.resize((80, 80))
-			new_image.alpha_composite(asia_oceania_emoji, (70, 380))
+            with Image.open(static_path / 'images/1f30e.png', 'r') as image:
+                americas_emoji = image.resize((80, 80))
+            new_image.alpha_composite(americas_emoji, (70, 200))
 
-			time_font = ImageFont.truetype(str(static_path / "fonts/inter-v7-latin-600.ttf"), 54)
-			for index, zone in enumerate(TIMEZONES):
-				adjusted_datetime = now.astimezone(zone)
-				drawing_context.text(
-					(200 + index % 2 * 360, 205 + math.floor(index / 2) * 90),
-					adjusted_datetime.strftime("%H:%M %Z"),
-					fill="#000000", font=time_font, features=["tnum"])
+            with Image.open(static_path / 'images/1f30d.png', 'r') as image:
+                europe_africa_emoji = image.resize((80, 80))
+            new_image.alpha_composite(europe_africa_emoji, (70, 290))
 
-			encoded_image = BytesIO()
+            with Image.open(static_path / 'images/1f30f.png', 'r') as image:
+                asia_oceania_emoji = image.resize((80, 80))
+            new_image.alpha_composite(asia_oceania_emoji, (70, 380))
 
-			new_image.convert(mode='RGB').quantize().save(encoded_image, 'PNG', optimize=True)
+            time_font = ImageFont.truetype(str(static_path / 'fonts/inter-v7-latin-600.ttf'), 54)
+            for index, zone in enumerate(TIMEZONES):
+                adjusted_datetime = now.astimezone(zone)
+                drawing_context.text(
+                    (200 + index % 2 * 360, 205 + math.floor(index / 2) * 90),
+                    adjusted_datetime.strftime('%H:%M %Z'),
+                    fill='#000000', font=time_font, features=['tnum'])
 
-		encoded_image.seek(0)
+            encoded_image = BytesIO()
 
-		return send_file(encoded_image, mimetype='image/png')
+            new_image.convert(mode='RGB').quantize().save(encoded_image, 'PNG', optimize=True)
 
-	return app
+        encoded_image.seek(0)
+
+        return send_file(encoded_image, mimetype='image/png')
+
+    @app.route('/<int:beats>', methods=['GET'])
+    def beats_redirect(**params):
+        return redirect(url_for('beats', **params))
+
+    @app.route('/<int:beats>.png', methods=['GET'])
+    def beats_image_redirect(**params):
+        return redirect(url_for('beats_image', **params))
+
+    return app
 
 if __name__ == '__main__':
     create_app().run()
