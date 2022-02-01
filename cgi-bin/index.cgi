@@ -6,7 +6,7 @@ cgitb.enable()
 import os
 
 from datetime import date, datetime, time, timedelta, timezone
-from decimal import *
+from decimal import Decimal
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pathlib import Path
 from pytz import timezone as tz

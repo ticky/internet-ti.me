@@ -7,7 +7,7 @@ cgitb.enable()
 import codecs, sys
 import math
 from datetime import date, datetime, time, timedelta, timezone
-from decimal import *
+from decimal import Decimal
 from io import BytesIO
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
