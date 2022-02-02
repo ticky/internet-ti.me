@@ -19,14 +19,14 @@
           <span class="time"></span> <span class="zone"></span>
         </time>
       </li>
-    {% for zone in timezones %}
+    {% for zone in timezones -%}
       {% set adjusted_datetime = datetime.astimezone(zone) %}
       <li>
         <time datetime="{{ adjusted_datetime.isoformat() }}" data-zone="{{ zone.zone }}">
           <span class="time">{{ adjusted_datetime.strftime("%H:%M") }}</span> <span class="zone">{{ adjusted_datetime.strftime("%Z") }}</span>
         </time>
       </li>
-    {% endfor %}
+    {%- endfor %}
     </ul>
   </div>
   <script src="{{ url_for('static', filename='js/luxon.min.js') }}"></script>

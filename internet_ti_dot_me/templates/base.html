@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>{% block head %}
+  <head>
+  {% block head -%}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark light">
@@ -16,11 +17,12 @@
     {% if self.image() %}<meta property="og:image" content="{% block image %}{% endblock %}">{% endif %}
     <meta property="og:site_name" content="internet-ti.me">
     <meta property="og:locale" content="en_GB">
-  {% endblock %}</head>
-  <body>{% block content %}
+  {%- endblock %}</head>
+  <body>
+  {% block content -%}
     <h1><a href="/">internet-ti.me</a></h1>
     <p>Internet Time reference and converter</p>
-  {% endblock %}
+  {%- endblock %}
   <footer>
     <p>
       <small>
