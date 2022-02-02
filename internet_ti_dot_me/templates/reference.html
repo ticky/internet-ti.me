@@ -4,7 +4,7 @@
 {% block image %}{{ url_for('beats_image', beats="%0.3d" % beats, _external=True) }}{% endblock %}
 {% block content %}
   {{ super() }}
-  <div id="reference" data-beats="@{{ "%0.3d" % beats }}">
+  <div id="reference" data-beats="{{ "%0.3d" % beats }}" data-live="{% block live %}false{% endblock %}">
     <div id="heading">
       <h2 id="beats">@{{ "%0.3d" % beats }}</h2>
 
@@ -14,6 +14,11 @@
     </div>
 
     <ul id="time-zones">
+      <li id="local-zone" style="display: none">
+        <time data-zone="local">
+          <span class="time"></span> <span class="zone"></span>
+        </time>
+      </li>
     {% for zone in timezones %}
       {% set adjusted_datetime = datetime.astimezone(zone) %}
       <li>
@@ -24,4 +29,6 @@
     {% endfor %}
     </ul>
   </div>
+  <script src="{{ url_for('static', filename='js/luxon.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}

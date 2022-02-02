@@ -2,8 +2,4 @@
 {% block title %}internet-ti.me{% endblock %}
 {% block description %}Internet Time clock, converter and reference{% endblock %}
 {% block image %}{% endblock %}
-{% block content %}
-  {{ super() }}
-  <script src="{{ url_for('static', filename='js/luxon.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-{% endblock %}
+{% block live %}true{% endblock %}

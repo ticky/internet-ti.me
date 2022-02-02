@@ -79,7 +79,7 @@ time {
 }
 
 #reference:before {
-  content: attr(data-beats);
+  content: '@' attr(data-beats);
   font-size: 7.5em;
   font-weight: bold;
   color: rgba(128, 128, 128, 0.2);
@@ -106,7 +106,7 @@ time {
 
 #heading {
   display: flex;
-  margin-bottom: 1em;
+  margin-bottom: .5em;
 }
 
 #heading > h2 {
@@ -140,6 +140,23 @@ time {
   margin: 0;
 }
 
+#local-zone {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  margin-bottom: .25em;
+}
+
+#time-zones time[data-zone="local"]:after {
+  content: 'Local';
+  font-size: .5em;
+  border-radius: .2em;
+  text-transform: uppercase;
+  background: rgba(128, 128, 128, 0.3);
+  vertical-align: .4em;
+  padding: 0 .25em;
+}
+
+#time-zones time[data-zone="local"]:before { content: '📍' }
 #time-zones time[data-zone="US/Pacific"]:before { content: '🌎' }
 #time-zones time[data-zone="Etc/UTC"]:before { content: '🌍' }
 #time-zones time[data-zone="Asia/Tokyo"]:before { content: '🌏' }
