@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Internet Time Converter{% endblock %}
+{% block description %}{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    body { max-width: 36em }
+    #reference { max-width: 20em }
+  </style>
+{% endblock %}
+{% block content %}
+  {{ super() }}
+  <div id="reference" data-beats="{{ "%0.3d" % beats }}" data-live="{% block live %}false{% endblock %}">
+    <div id="heading">
+      <h2 id="beats"><span id="beats-input"><span style="margin-top: -0.2em">@</span><select></select><input type="number" min="0" max="999" inputmode="numeric" pattern="[0-9]*" value="{{ "%0.3d" % beats }}"/><span style="font-size: .4em; margin-left:.25em">▼</span></span></h2>
+
+      <a id="permalink" href="/@{{ "%0.3d" % beats }}" title="Permalink to this time">
+        internet-ti.me/<span class="beats">@{{ "%0.3d" % beats }}</span>
+      </a>
+    </div>
+
+    <ul id="time-zones">
+      <li id="local-zone" style="display: none">
+        <time data-zone="local">
+          <input type="time" required /> <span class="zone"></span>
+        </time>
+      </li>
+    {% for zone in timezones -%}
+      {% set adjusted_datetime = datetime.astimezone(zone) %}
+      <li>
+        <time datetime="{{ adjusted_datetime.isoformat() }}" data-zone="{{ zone.zone }}">
+          <input type="time" value="{{ adjusted_datetime.strftime("%H:%M") }}" required /> <span class="zone">{{ adjusted_datetime.strftime("%Z") }}</span>
+        </time>
+      </li>
+    {%- endfor %}
+    </ul>
+  </div>
+  <script src="{{ url_for('static', filename='js/luxon.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/shared.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const beatsSelect = document.querySelector('#beats-input > select');
+      const beatsInput = document.querySelector('#beats-input > input');
+
+      for (var index = 0; index < 1000; index++) {
+        const optionElement = document.createElement('option');
+        optionElement.value = index;
+        optionElement.innerText = beatsNumberFormatter.format(index);
+        beatsSelect.appendChild(optionElement);
+      }
+
+      beatsSelect.value = beatsInput.value;
+
+      const referenceWrapper = document.getElementById('reference');
+      const beatsPermalink = document.getElementById('permalink');
+      const timeZoneElements = Array.prototype.map.call(
+        document.querySelectorAll('#time-zones > li > time'),
+        (timeWrapperElement) => ({
+          timeWrapperElement,
+          timeInputElement: timeWrapperElement.querySelector('input[type="time"]'),
+          zoneElement: timeWrapperElement.querySelector('span.zone')
+        })
+      );
+
+      const updateTime = (dateTime, currentBeats=Math.floor(dateTime.beats)) => {
+        const beatsPadded = beatsNumberFormatter.format(currentBeats);
+        const beatsString = `@${beatsPadded}`;
+
+        beatsSelect.value = currentBeats;
+        beatsInput.value = beatsPadded;
+        document.title = `${beatsString} - internet-ti.me`;
+        beatsPermalink.href = `/${beatsString}`;
+        beatsPermalink.querySelector('span.beats').innerText = beatsString;
+        referenceWrapper.dataset.beats = beatsPadded;
+
+        timeZoneElements.forEach(({ timeWrapperElement, timeInputElement, zoneElement }) => {
+          const timeInZone = dateTime.setZone(timeWrapperElement.dataset.zone ? timeWrapperElement.dataset.zone : BielMeanTimeZone.singleton);
+
+          timeInputElement.value = timeInZone.toLocaleString({ hour: 'numeric', minute: 'numeric', hour12: false });
+          timeWrapperElement.setAttribute('datetime', timeInZone.toISO());
+
+          // Update the time zone names if it's got an associated IANA zone name
+          if (timeWrapperElement.dataset.zone) {
+            if (timeWrapperElement.dataset.zone !== 'local') {
+              zoneElement.innerText = timeInZone.localTimeZoneName;
+            } else {
+              zoneElement.innerText = timeInZone.timeZoneName;
+            }
+          }
+
+          if (timeWrapperElement.parentElement.style.display == 'none') {
+            timeWrapperElement.parentElement.style.display = '';
+          }
+        });
+      };
+
+      beatsSelect.addEventListener('change', (event) => {
+        const currentBeats = beatsNumberFormatter.format(event.target.value);
+
+        const dateTime = (
+          DateTime.fromISO(document.querySelector('time[datetime$="+01:00"]').dateTime)
+            .setZone(BielMeanTimeZone.singleton)
+            .startOf('day')
+            .plus(currentBeats * 86400)
+        );
+
+        updateTime(dateTime);
+      });
+
+      beatsInput.addEventListener('change', (event) => {
+        const currentBeats = beatsNumberFormatter.format(event.target.value.slice(0, 3));
+
+        const dateTime = (
+          DateTime.fromISO(document.querySelector('time[datetime$="+01:00"]').dateTime)
+            .setZone(BielMeanTimeZone.singleton)
+            .startOf('day')
+            .plus(currentBeats * 86400)
+        );
+
+        updateTime(dateTime);
+      });
+
+      timeZoneElements.forEach(({ timeWrapperElement, timeInputElement }) => {
+        timeInputElement.addEventListener('change', (event) => {
+          const dateTime = (
+            DateTime.fromISO(timeWrapperElement.dateTime)
+              .setZone(timeWrapperElement.dataset.zone ? timeWrapperElement.dataset.zone : BielMeanTimeZone.singleton)
+              .startOf('day')
+              .plus(Duration.fromISOTime(event.target.value))
+          );
+
+          updateTime(dateTime);
+        });
+      });
+
+      const currentBeats = parseInt(referenceWrapper.dataset.beats, 10);
+
+      const dateTime = (
+        DateTime.fromISO(document.querySelector('time[datetime$="+01:00"]').dateTime)
+          .setZone(BielMeanTimeZone.singleton)
+          .startOf('day')
+          .plus(currentBeats * 86400)
+      );
+
+      updateTime(dateTime);
+    });
+  </script>
+{% endblock %}

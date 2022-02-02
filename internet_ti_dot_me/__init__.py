@@ -33,6 +33,14 @@ def create_app(test_config=None):
 
         return render_template('index.html', beats=beats, datetime=now, timezones=TIMEZONES)
 
+    @app.route('/converter', methods=['GET'])
+    def converter():
+        now = datetime.now(BIEL_MEAN_TIME)
+
+        beats = ((now.hour * 3600) + (now.minute * 60) + (now.second)) / BEAT_LENGTH
+
+        return render_template('converter.html', beats=beats, datetime=now, timezones=TIMEZONES)
+
     @app.route('/@<int:beats>', methods=['GET'])
     def beats(beats):
         if beats > 999:
