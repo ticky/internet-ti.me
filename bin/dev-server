@@ -3,4 +3,4 @@
 export FLASK_APP="internet_ti_dot_me"
 export FLASK_ENV="development"
 
-flask run
+flask run "$@"
