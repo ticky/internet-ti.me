@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}@{{ "%0.3d" % beats }} - internet-ti.me{% endblock %}
+{% block title %}@{{ "%0.3d" % beats }}{% endblock %}
 {% block description %}is {% for zone in timezones %}{% set adjusted_datetime = datetime.astimezone(zone) %}{{ adjusted_datetime.strftime("%H:%M %Z") }}{% if loop.last == False %}, {% endif %}{% endfor %}{% endblock %}
 {% block image %}{{ url_for('beats_image', beats="%0.3d" % beats, _external=True) }}{% endblock %}
 {% block content %}
