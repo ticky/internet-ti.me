@@ -63,18 +63,27 @@ time {
   font-variant-numeric: tabular-nums;
 }
 
-#reference {
+#reference,
+#converter {
   max-width: 18em;
   border: 1px solid rgba(128, 128, 128, 0.2);
-  border-radius: .5em;
   box-shadow: rgba(0, 0, 0, 0.2) 0 .25em 1em;
-  margin: 0 auto;
+  margin: 0 -1em;
   padding: 1em;
   position: relative;
   overflow: hidden;
 }
 
-#reference:before {
+@media (min-width: 400px) {
+  #reference,
+  #converter {
+    margin: 0 auto;
+    border-radius: .5em;
+  }
+}
+
+#reference:before,
+#converter:before {
   content: '@' attr(data-beats);
   font-size: 7.5em;
   font-weight: bold;
@@ -89,15 +98,15 @@ time {
 }
 
 @media (min-width: 370px) {
-  #reference { font-size: 1.2em }
+  #reference, #converter { font-size: 1.2em }
 }
 
 @media (min-width: 400px) {
-  #reference { font-size: 1.3em }
+  #reference, #converter { font-size: 1.3em }
 }
 
 @media (min-width: 500px) {
-  #reference { font-size: 1.6em }
+  #reference, #converter { font-size: 1.6em }
 }
 
 #heading {
@@ -127,19 +136,30 @@ time {
   text-decoration: underline;
 }
 
+@media (max-width: 400px) {
+  #heading > a:link {
+    font-size: 0.2em;
+  }
+
+  #heading > a:link > span.beats {
+    font-size: 3.5em;
+    vertical-align: middle;
+  }
+}
+
 #time-zones {
   font-weight: 600;
   display: grid;
-  grid-gap: .2em;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
   list-style-type: none;
   padding: 0;
   margin: 0;
+  margin-left: 1.4em;
 }
 
 #local-zone {
   grid-column-start: 1;
-  grid-column-end: 3;
+  grid-column-end: span 2;
   margin-bottom: .25em;
 }
 
@@ -151,6 +171,21 @@ time {
   background: rgba(128, 128, 128, 0.3);
   vertical-align: .4em;
   padding: 0 .25em;
+}
+
+#time-zones time {
+  position: relative;
+}
+
+#time-zones time[data-zone="local"]:before,
+#time-zones time[data-zone="US/Pacific"]:before,
+#time-zones time[data-zone="Etc/UTC"]:before,
+#time-zones time[data-zone="Asia/Tokyo"]:before {
+  position: absolute;
+  right: 100%;
+  text-align: center;
+  width: 1.4em;
+  line-height: 1.3em;
 }
 
 #time-zones time[data-zone="local"]:before { content: '📍' }
@@ -177,6 +212,7 @@ time {
   margin: 0;
   padding: 0;
   background: none;
+  line-height: inherit;
 }
 
 #beats-input > input {
