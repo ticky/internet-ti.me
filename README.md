@@ -2,9 +2,9 @@
 
 [![CodeQL](https://github.com/ticky/internet-ti.me/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/ticky/internet-ti.me/actions/workflows/codeql-analysis.yml) [![Deploy](https://github.com/ticky/internet-ti.me/actions/workflows/main.yml/badge.svg)](https://github.com/ticky/internet-ti.me/actions/workflows/main.yml)
 
-[Internet Time](https://en.wikipedia.org/wiki/Swatch_Internet_Time) reference and (eventually) converter site, for planning things with your internet friends who aren't (yet) obsessed with Internet Time 😉
+[Internet Time](https://en.wikipedia.org/wiki/Swatch_Internet_Time) reference and converter site, for planning things with your internet friends who aren't (yet) obsessed with Internet Time 😉
 
-Link to any Internet Time by putting it after `https://internet-ti.me/` to embed a quick text and/or image reference of times around the world - like `https://internet-ti.me/@000` or `https://internet-ti.me/@420`. You can also omit the `@`, as some social networks get aggressive about username autocompletion with it.
+Link to any Internet Time by putting it after `https://internet-ti.me/` to embed a quick text and/or image reference of times around the world - like `https://internet-ti.me/@000` or `https://internet-ti.me/@420`. You can also omit the `@`, as some social networks get aggressive about username autocompletion with it. An interactive Internet Time converter is also provided at `https://internet-ti.me/converter`!
 
 ## Why
 
