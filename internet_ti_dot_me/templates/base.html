@@ -7,6 +7,7 @@
     <meta name="color-scheme" content="dark light">
     <meta name="theme-color" content="#893ff4">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='mask-icon.svg') }}" color="#893ff4">
     <title>{% block title %}{% endblock %}{% if self.title() %} - {% endif %}internet-ti.me</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <meta name="description" content="{% block description required %}{% endblock %}">
