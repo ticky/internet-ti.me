@@ -7,7 +7,7 @@
     <meta name="color-scheme" content="dark light">
     <meta name="theme-color" content="#893ff4">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-    <link rel="mask-icon" href="{{ url_for('static', filename='mask-icon.svg') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='mask-icon.svg') }}" color="#893ff4">
     <title>{% block title %}{% endblock %}{% if self.title() %} - {% endif %}internet-ti.me</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <meta name="description" content="{% block description required %}{% endblock %}">
@@ -19,6 +19,12 @@
     {% if self.image() %}<meta property="og:image" content="{% block image %}{% endblock %}">{% endif %}
     <meta property="og:site_name" content="internet-ti.me">
     <meta property="og:locale" content="en_GB">
+    <meta name="apple-mobile-web-app-title" content="internet-ti.me">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="{{ url_for('static', filename='apple-touch-icon-76x76-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="80x80" href="{{ url_for('static', filename='apple-touch-icon-80x80-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{{ url_for('static', filename='apple-touch-icon-120x120-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="167x167" href="{{ url_for('static', filename='apple-touch-icon-167x167-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon-180x180-precomposed.png') }}">
   {%- endblock %}</head>
   <body>
   {% block content -%}
