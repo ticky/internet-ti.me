@@ -11,12 +11,16 @@
     <title>{% block title %}{% endblock %}{% if self.title() %} - {% endif %}internet-ti.me</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <meta name="description" content="{% block description required %}{% endblock %}">
-    <meta property="twitter:card" content="{% block twitter_card %}summary_large_image{% endblock %}">
+    <meta property="twitter:card" content="{% block twitter_card %}{% if self.image() %}summary_large_image{% else %}summary_image{% endif %}{% endblock %}">
     <meta property="twitter:creator" content="@ticky">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ self.title() or 'internet-ti.me' }}">
     <meta property="og:description" content="{{ self.description() }}">
-    {% if self.image() %}<meta property="og:image" content="{% block image %}{% endblock %}">{% endif %}
+    {% if self.image() -%}
+    <meta property="og:image" content="{% block image %}{% endblock %}">
+    {%- else -%}
+    <meta property="twitter:image" content="{{ url_for('static', filename='apple-touch-icon-180x180-precomposed.png', _external=True) }}">
+    {%- endif %}
     <meta property="og:site_name" content="internet-ti.me">
     <meta property="og:locale" content="en_GB">
     <meta name="apple-mobile-web-app-title" content="internet-ti.me">
