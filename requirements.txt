@@ -1,4 +1,4 @@
-Flask==2.0.3
+Flask==2.1.0
 Jinja2==3.1.1
 MarkupSafe==2.1.1
 pytz==2022.1
