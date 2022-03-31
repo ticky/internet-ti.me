@@ -1,4 +1,4 @@
-from flask import Flask, abort, redirect, render_template, send_file, url_for
+from flask import Flask, abort, redirect, render_template, send_file, send_from_directory, url_for
 
 import math
 from datetime import date, datetime, time, timedelta, timezone
@@ -113,6 +113,13 @@ def create_app(test_config=None):
     @app.route('/<int:beats>.png', methods=['GET'])
     def beats_image_redirect(**params):
         return redirect(url_for('beats_image', **params))
+
+    @app.route('/<path:path>', methods=['GET'])
+    def static_htdocs(path):
+        try:
+            return send_from_directory(app.config['HTDOCS_FOLDER'], path)
+        except KeyError:
+            return abort(404)
 
     return app
 
